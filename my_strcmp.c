@@ -1,24 +1,48 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <stdbool.h>
-bool my_strcmp(char *string1, char *string2)
+#define UPPER_LOWER_ASCII_DIFF 32
+
+int my_strlen(char *arr);
+int my_strcmp(char *string1, const char *string2);
+
+int main(int argc , char **argv)
 {
-    bool result = false;
-    for(int i = 0 ; *(string1 + i) != '\0' || *(string2 + i) != '\0' ; i++)
+    char *test = argv[1];
+    char *test2 = argv[2];
+    if(my_strlen(test) == my_strlen(test2))
     {
-        if(*(string1 + i) == *(string2 + i))
-             result = true;
+        if(my_strcmp(test, test2) == 1)
+            printf("the strings are the same\n");
+        else 
+            printf("the string aren't the same\n");
+    }
+    else 
+        printf("the string aren't the same\n");
+    return 0;
+}
+int my_strlen(char *arr)
+{
+	char *p = arr; // put the first chararcter adresse's of the string in this pointer 
+    for(; *p != '\0'; p++);
+	return p - arr;
+}
+
+int my_strcmp(char *string1, const char *string2)
+{
+    int result = 0;
+    int i = 0;
+    while(string1[i] != '\0')
+    {
+        if(string1[i] == string2[i])
+        {
+            result = 1;
+        }
+        // what if the strings are the same but one upper-case and the other lower-case
+        else if((int)*(string1+i) - (int)*(string2+i) == UPPER_LOWER_ASCII_DIFF) 
+            result = 1;
+        else
+            result = 0;
+        i++;
     }
     return result;
-}
-int main(void)
-{
-    char *string1 = "wassim";
-    char *string2 = "wassim";
-    bool result = my_strcmp(string1, string2);
-    if(result == true)
-        printf("the string are same\n");
-    else 
-        printf("they aren't the same\n");
-     return 0;
 }
